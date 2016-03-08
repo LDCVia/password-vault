@@ -1,0 +1,36 @@
+form(role='form' action="/entry/#{entry.__unid}" method="POST")
+  h2 #{entry.sitename}
+  div.form-group
+    label(for="sitename") Site Name
+    input.form-control(id="sitename" name="sitename" placeholder="Site Name" value="#{entry.sitename}")
+  div.form-group
+    label(for="ipaddress") IP Address
+    input.form-control(id="ipaddress" name="ipaddress" placeholder="IP Address" value="#{entry.ipaddress}")
+  div.form-group
+    label(for="username") User Name
+    input.form-control(id="username" name="username" placeholder="User Name" value="#{entry.username}")
+  div.form-group
+    label(for="password") Password
+    input.form-control(id="password" name="password" placeholder="Password" value="#{entry.password}")
+  if(roles.length > 0)
+    div.form-group
+      label(for="roles") Visible To
+      select.form-control(id="roles" name="roles" multiple="true")
+        each role in roles
+          if (entry.roles.indexOf(role) > -1)
+            option(value="#{role}" selected) #{role}
+          else
+            option(value="#{role}") #{role}
+  div.form-group
+    label(for="newroles") Add New roles
+    input.form-control(id="newroles" name="newroles" placeholder="New Roles (separate with comma)")
+  div.form-group
+    label(for="notes") Notes
+    textarea(name="notes" id="body" rows="10" cols="80")
+      | #{entry.notes}
+  if(error)
+    div.alert.alert-danger
+      | #{error}
+  div.btn-group.pull-right
+    button.btn.btn-primary(type='submit') Submit
+    a.btn.btn-danger(href="#" onclick="deleteEntry('#{entry.__unid}')") Delete
