@@ -94,6 +94,9 @@ router.post('/newentry', auth.requiresLogin, function(req, res, next){
   data.datecreated = new Date();
   data.__form = "entries";
   data.roles = req.body.roles;
+  var uuid = require('node-uuid');
+  var unid = uuid.v4();
+  data.__unid = unid;
   if (!data.roles){
     data.roles = [];
   }else if(!Array.isArray(data.roles)){
@@ -111,7 +114,7 @@ router.post('/newentry', auth.requiresLogin, function(req, res, next){
     }
   }
   restler.putJson(
-    process.env.LDCVIA_PASSWORDVAULT_APIHOST + "/1.0/document/password-vault/entries",
+    process.env.LDCVIA_PASSWORDVAULT_APIHOST + "/1.0/document/password-vault/entries/" + unid,
     data,
     {headers:
       {'cookie': getCookies(req)}
